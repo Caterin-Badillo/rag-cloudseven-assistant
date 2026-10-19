@@ -1,10 +1,10 @@
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
+# Modelos de HuggingFace utilizados
+MODEL_ID = "HuggingFaceTB/SmolLM2-1.7B-Instruct"
+EMBEDDING_MODEL_ID = "sentence-transformers/all-MiniLM-L6-v2"
 
-# Ajustes por defecto de Chunking y RAG
+# Parámetros de recuperación y fragmentación (Chunking)
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 200
 TOP_K_RESULTS = 2
-MODEL_NAME = "gpt-4o-mini"
