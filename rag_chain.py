@@ -45,7 +45,7 @@ def build_rag_chain(vectorstore, api_key: str = None):
         "text-generation",
         model=model,
         tokenizer=tokenizer,
-        max_new_tokens=128,
+        max_new_tokens=96,
         temperature=0.1,
         do_sample=True
     )
