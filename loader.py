@@ -1,13 +1,11 @@
-import io
 from typing import List
-from langchain_community.document_loaders import PyPDFLoader, TextLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from config import CHUNK_SIZE, CHUNK_OVERLAP
 import pypdf
 
 def process_uploaded_files(uploaded_files) -> List[Document]:
-    """Procesa los archivos subidos directamente desde Streamlit (en memoria)."""
+    """Procesa los archivos subidos, limpia saltos de línea y aplica chunking."""
     documents = []
 
     for uploaded_file in uploaded_files:
@@ -18,9 +16,8 @@ def process_uploaded_files(uploaded_files) -> List[Document]:
             pdf_reader = pypdf.PdfReader(uploaded_file)
             for page_num, page in enumerate(pdf_reader.pages):
                 text = page.extract_text()
-                if raw_text:
-                    # Limpia saltos de línea y espacios múltiples, uniendo el texto en un párrafo limpio
-                    cleaned_text = " ".join(raw_text.split())
+                if text:
+                    cleaned_text = " ".join(text.split())
                     documents.append(
                         Document(
                             page_content=cleaned_text,
@@ -42,7 +39,7 @@ def process_uploaded_files(uploaded_files) -> List[Document]:
     if not documents:
         return []
 
-    # Aplicar Chunking
+    # Aplicar Chunking para fragmentar de manera estructurada
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=CHUNK_SIZE,
         chunk_overlap=CHUNK_OVERLAP
